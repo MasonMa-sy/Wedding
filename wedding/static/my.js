@@ -1,6 +1,32 @@
 let yDown = null;
 let page = 1;
 
+var myAudio = document.getElementById("audio_bgm");
+var musicImg = document.getElementById("music-img");
+
+musicImg.addEventListener("click", function () {
+    if (myAudio.paused) {
+      myAudio.play();
+      musicImg.src = "https://qnm.hunliji.com/o_1dl6oflcf1big140ebgvfqi1rc5u.png";
+      musicImg.className = "music-img music-open";
+    } else {
+      myAudio.pause();
+      musicImg.src = "https://qnm.hunliji.com/o_1dl6ofngs183r1l6a1a081irq1ncv13.png";
+      musicImg.className = "music-img music-close";
+    }
+})
+
+document.addEventListener('click', musicPlay);
+document.addEventListener('touchstart', musicPlay);
+function musicPlay() {
+    myAudio.play(); //没有就播放
+    musicImg.src = "https://qnm.hunliji.com/o_1dl6oflcf1big140ebgvfqi1rc5u.png";
+    musicImg.className = "music-img music-open";
+
+    document.removeEventListener('click', musicPlay);
+    document.removeEventListener('touchstart', musicPlay);
+}
+
 function change_page(dir) {
     if ( dir ) {
         page += 1;
