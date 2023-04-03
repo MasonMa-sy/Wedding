@@ -46,7 +46,7 @@ function change_page(dir) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'page': page})
+      body: JSON.stringify({'page': page, 'dir': dir})
     })
     .then(response => response.text())
     .then(data => {

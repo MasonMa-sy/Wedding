@@ -11,8 +11,27 @@ def main():
 
 @app.route('/change_page', methods=['POST', 'GET'])
 def change_page():
+    out = """<div data-v-7be53ed1="" class="page-inactive page-special-fadeout-down-leave" style="animation-duration: 1300ms;"><div data-v-7be53ed1="" class="content" style="animation-duration: 1300ms;">{content}</div></div>"""
+    in1 = """<div data-v-7be53ed1="" class="page-active page-special-fadeout-down-enter" style="animation-duration: 1300ms;"><div data-v-7be53ed1="" class="content" style="animation-duration: 1300ms;">{content}</div></div>"""
+    hide = """<div data-v-7be53ed1="" class="page-inactive hidden"><div data-v-7be53ed1="" class="content">{content}</div></div>"""
     page = request.json['page']
-    return render_template(f'page{page}.html')
+    dir_b = request.json['dir']
+    res = ""
+    # 向下划
+    if dir_b:
+        page_out = page - 1
+        page_in = page
+        page_hide = page + 1
+    else:
+        page_out = page + 1
+        page_in = page
+        page_hide = page - 1
+    if 0 < page_out <= 9:
+        res += out.format(content=render_template(f'page{page_out}.html'))
+    res += in1.format(content=render_template(f'page{page_in}.html'))
+    if 0 < page_hide <= 9:
+        res += hide.format(content=render_template(f'page{page_hide}.html'))
+    return res
 
 
 
