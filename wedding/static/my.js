@@ -1,5 +1,5 @@
 let yDown = null;
-let page = 10;
+let page = 1;
 let allPage = 10;
 
 var myAudio = document.getElementById("audio_bgm");
