@@ -1,5 +1,6 @@
 let yDown = null;
-let page = 1;
+let page = 10;
+let allPage = 10;
 
 var myAudio = document.getElementById("audio_bgm");
 var musicImg = document.getElementById("music-img");
@@ -37,8 +38,8 @@ function change_page(dir) {
         page = 1;
         return;
     }
-    if (page > 9) {
-        page = 9;
+    if (page > allPage) {
+        page = allPage;
         return;
     }
     fetch('/change_page', {
@@ -74,11 +75,9 @@ function handleTouchMove(evt) {
     if ( yDiff > 3 ) {
         /* up swipe */
         change_page(true)
-        console.log('swiped up');
     } else if (yDiff < -3) {
         /* down swipe */
         change_page(false)
-        console.log('swiped down');
     }
 
     /* reset values */
@@ -106,11 +105,9 @@ function handleMouseMove(evt) {
     if ( yDiff > 3 ) {
         /* up swipe */
         change_page(true)
-        console.log('swiped up');
     } else if (yDiff < -3) {
         /* down swipe */
         change_page(false)
-        console.log('swiped down');
     }
 
     /* reset values */

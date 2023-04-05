@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+all_page = 10
 
 
-@app.route('/main.html')
+@app.route('/parents.html')
 def main():
     page = render_template('page1.html')
     return render_template('main.html', wrapper=page)
@@ -26,10 +27,10 @@ def change_page():
         page_out = page + 1
         page_in = page
         page_hide = page - 1
-    if 0 < page_out <= 9:
+    if 0 < page_out <= all_page:
         res += out.format(content=render_template(f'page{page_out}.html'))
     res += in1.format(content=render_template(f'page{page_in}.html'))
-    if 0 < page_hide <= 9:
+    if 0 < page_hide <= all_page:
         res += hide.format(content=render_template(f'page{page_hide}.html'))
     return res
 
