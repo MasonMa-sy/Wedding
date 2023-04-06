@@ -1,6 +1,8 @@
 let yDown = null;
 let page = 1;
 let allPage = 10;
+let url_path = location.pathname;
+let auto_play = true
 
 var myAudio = document.getElementById("audio_bgm");
 var musicImg = document.getElementById("music-img");
@@ -16,17 +18,6 @@ musicImg.addEventListener("click", function () {
       musicImg.className = "music-img music-close";
     }
 })
-
-document.addEventListener('click', musicPlay);
-document.addEventListener('touchstart', musicPlay);
-function musicPlay() {
-    myAudio.play(); //没有就播放
-    musicImg.src = "https://qnm.hunliji.com/o_1dl6oflcf1big140ebgvfqi1rc5u.png";
-    musicImg.className = "music-img music-open";
-
-    document.removeEventListener('click', musicPlay);
-    document.removeEventListener('touchstart', musicPlay);
-}
 
 function change_page(dir) {
     if ( dir ) {
@@ -47,7 +38,7 @@ function change_page(dir) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'page': page, 'dir': dir})
+      body: JSON.stringify({'page': page, 'dir': dir, 'url_path': url_path})
     })
     .then(response => response.text())
     .then(data => {
@@ -57,6 +48,31 @@ function change_page(dir) {
       console.error('Error:', error);
     });
 };
+
+function func_auto_play() {
+    change_page(true)
+}
+
+window.addEventListener('load', () => {
+    window.timer = setInterval(func_auto_play, 3700)
+})
+
+document.addEventListener('click', musicPlay);
+document.addEventListener('touchstart', musicPlay);
+document.addEventListener('touchmove', musicPlay);
+document.addEventListener('mousedown', musicPlay);
+function musicPlay() {
+    myAudio.play(); //没有就播放
+    musicImg.src = "https://qnm.hunliji.com/o_1dl6oflcf1big140ebgvfqi1rc5u.png";
+    musicImg.className = "music-img music-open";
+
+    document.removeEventListener('click', musicPlay);
+    document.removeEventListener('touchstart', musicPlay);
+    document.removeEventListener('touchmove', musicPlay);
+    document.removeEventListener('mousedown', musicPlay);
+    clearInterval(window.timer)
+}
+
 
 function handleTouchStart(evt) {
     xDown = evt.touches[0].clientX;

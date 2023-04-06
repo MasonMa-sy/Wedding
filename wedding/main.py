@@ -3,20 +3,32 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 all_page = 10
 
+page_parents = {10: '10'}
+page_parents2 = {10: '10_2'}
+
 
 @app.route('/parents.html')
-def main():
+def parents():
     page = render_template('page1.html')
-    return render_template('main.html', wrapper=page)
+    return render_template('main.html', wrapper=page,
+                           audio_bgm="https://qnvideo.hunliji.com/o_1dl714rg59qugmcqri18ijpgm9.mp3")
+
+
+@app.route('/parents2.html')
+def parents2():
+    page = render_template('page1.html')
+    return render_template('main.html', wrapper=page,
+                           audio_bgm="https://qnvideo.hunliji.com/FhW-7EfajiwFmZjgo_I28V-44xsd")
 
 
 @app.route('/change_page', methods=['POST', 'GET'])
 def change_page():
-    out = """<div data-v-7be53ed1="" class="page-inactive page-special-fadeout-down-leave" style="animation-duration: 1300ms;"><div data-v-7be53ed1="" class="content" style="animation-duration: 1300ms;">{content}</div></div>"""
+    out = """<div data-v-7be53ed1="" class="page-inactive hidden page-special-fadeout-down-leave" style="animation-duration: 1300ms;"><div data-v-7be53ed1="" class="content" style="animation-duration: 1300ms;">{content}</div></div>"""
     in1 = """<div data-v-7be53ed1="" class="page-active page-special-fadeout-down-enter" style="animation-duration: 1300ms;"><div data-v-7be53ed1="" class="content" style="animation-duration: 1300ms;">{content}</div></div>"""
     hide = """<div data-v-7be53ed1="" class="page-inactive hidden"><div data-v-7be53ed1="" class="content">{content}</div></div>"""
     page = request.json['page']
     dir_b = request.json['dir']
+    page_dict = globals()['page_'+request.json['url_path'].replace('.html', '').replace('/', '')]
     res = ""
     # 向下划
     if dir_b:
@@ -27,13 +39,14 @@ def change_page():
         page_out = page + 1
         page_in = page
         page_hide = page - 1
+    def get_page(x):
+        return x if x < 10 else page_dict[x]
     if 0 < page_out <= all_page:
-        res += out.format(content=render_template(f'page{page_out}.html'))
-    res += in1.format(content=render_template(f'page{page_in}.html'))
+        res += out.format(content=render_template(f'page{get_page(page_out)}.html'))
+    res += in1.format(content=render_template(f'page{get_page(page_in)}.html'))
     if 0 < page_hide <= all_page:
-        res += hide.format(content=render_template(f'page{page_hide}.html'))
+        res += hide.format(content=render_template(f'page{get_page(page_hide)}.html'))
     return res
-
 
 
 @app.route('/2')
