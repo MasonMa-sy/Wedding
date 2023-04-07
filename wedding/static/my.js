@@ -54,7 +54,8 @@ function func_auto_play() {
 }
 
 window.addEventListener('load', () => {
-    window.timer = setInterval(func_auto_play, 3700)
+    window.timer = setInterval(func_auto_play, 4000)
+    musicPlay()
 })
 
 document.addEventListener('click', musicPlay);
@@ -63,6 +64,8 @@ document.addEventListener('touchmove', musicPlay);
 document.addEventListener('mousedown', musicPlay);
 function musicPlay() {
     myAudio.play(); //没有就播放
+    if (myAudio.paused)
+        return
     musicImg.src = "https://qnm.hunliji.com/o_1dl6oflcf1big140ebgvfqi1rc5u.png";
     musicImg.className = "music-img music-open";
 
@@ -70,7 +73,6 @@ function musicPlay() {
     document.removeEventListener('touchstart', musicPlay);
     document.removeEventListener('touchmove', musicPlay);
     document.removeEventListener('mousedown', musicPlay);
-    clearInterval(window.timer)
 }
 
 
@@ -90,9 +92,12 @@ function handleTouchMove(evt) {
 
     if ( yDiff > 3 ) {
         /* up swipe */
+        clearInterval(window.timer)
         change_page(true)
+        window.timer = setInterval(func_auto_play, 4000)
     } else if (yDiff < -3) {
         /* down swipe */
+        clearInterval(window.timer)
         change_page(false)
     }
 
@@ -120,9 +125,12 @@ function handleMouseMove(evt) {
 
     if ( yDiff > 3 ) {
         /* up swipe */
+        clearInterval(window.timer)
         change_page(true)
+        window.timer = setInterval(func_auto_play, 4000)
     } else if (yDiff < -3) {
         /* down swipe */
+        clearInterval(window.timer)
         change_page(false)
     }
 

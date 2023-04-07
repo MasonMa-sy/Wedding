@@ -6,12 +6,13 @@ all_page = 10
 page_parents = {10: '10'}
 page_parents2 = {10: '10_2'}
 
+# https://qnvideo.hunliji.com/o_1dl714rg59qugmcqri18ijpgm9.mp3
 
 @app.route('/parents.html')
 def parents():
     page = render_template('page1.html')
     return render_template('main.html', wrapper=page,
-                           audio_bgm="https://qnvideo.hunliji.com/o_1dl714rg59qugmcqri18ijpgm9.mp3")
+                           audio_bgm="https://qnvideo.hunliji.com/FhW-7EfajiwFmZjgo_I28V-44xsd")
 
 
 @app.route('/parents2.html')
