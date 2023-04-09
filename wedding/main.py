@@ -66,7 +66,8 @@ def main2():
 def feedback():
     name = request.json['name']
     ip = request.remote_addr
-    # print(request.headers)
+    real_ip = request.headers.get('X-Real-Ip', '')
+    ip = real_ip if real_ip != '' else ip
     member = request.json['member']
     way = request.json['way']
     if name == "" or member == "" or way == "":
