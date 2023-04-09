@@ -6,6 +6,7 @@ import os
 class MysqlConnector:
     def __init__(self):
         evn = os.environ
+        print(evn)
         self.POOL = PooledDB(
             creator=pymysql,    #使用链接数据库的模块
             maxconnections=6,   #连接池允许的最大链接数，0和None表示不限制
