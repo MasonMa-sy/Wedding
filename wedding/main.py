@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from mysql_dao import mysql_connector
+from wedding.mysql_dao import mysql_connector
 
 app = Flask(__name__)
 all_page = 10
