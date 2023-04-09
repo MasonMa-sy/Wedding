@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request
+from mysql_dao import mysql_connector
 
 app = Flask(__name__)
 all_page = 10
 
 page_parents = {10: '10'}
 page_parents2 = {10: '10_2'}
+page_friend = {10: '10_3'}
 
-# https://qnvideo.hunliji.com/o_1dl714rg59qugmcqri18ijpgm9.mp3
 
 @app.route('/parents.html')
 def parents():
@@ -20,6 +21,12 @@ def parents2():
     page = render_template('page1.html')
     return render_template('main.html', wrapper=page,
                            audio_bgm="https://qnvideo.hunliji.com/FhW-7EfajiwFmZjgo_I28V-44xsd")
+
+@app.route('/friend.html')
+def friend():
+    page = render_template('page1.html')
+    return render_template('main.html', wrapper=page,
+                           audio_bgm="https://qnvideo.hunliji.com/o_1dl714rg59qugmcqri18ijpgm9.mp3")
 
 
 @app.route('/change_page', methods=['POST', 'GET'])
@@ -53,6 +60,19 @@ def change_page():
 @app.route('/2')
 def main2():
     return render_template('test.html')
+
+
+@app.route('/feedback', methods=['POST', 'GET'])
+def feedback():
+    name = request.json['name']
+    ip = request.remote_addr
+    # print(request.headers)
+    member = request.json['member']
+    way = request.json['way']
+    if name == "" or member == "" or way == "":
+        return "信息不全"
+    message = mysql_connector.update_friend((name, ip, member, way))
+    return str(message)
 
 
 if __name__ == '__main__':

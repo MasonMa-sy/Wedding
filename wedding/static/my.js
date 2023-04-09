@@ -17,7 +17,24 @@ musicImg.addEventListener("click", function () {
       musicImg.src = "https://qnm.hunliji.com/o_1dl6ofngs183r1l6a1a081irq1ncv13.png";
       musicImg.className = "music-img music-close";
     }
-})
+});
+
+$('#touch-container').on('click', '#btn_submit', function(){
+    fetch('/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'name': document.getElementById("name").value, 'member': document.getElementById("member").value, 'way': document.getElementById("way").value})
+    })
+    .then(response => response.text())
+    .then(data => {
+      window.alert(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
 
 function change_page(dir) {
     if ( dir ) {
